@@ -21,9 +21,8 @@
         <li class="card-textt mr-1" >{{ userCoins }}</li>
       </ul>
       <img
-        class=" shrink"
+        class="responsive-image"
         src="pokecoin.png"
-        height="40"
       />
     </div>
   </v-app-bar>
@@ -72,7 +71,7 @@ export default {
       }, 100);
     },
   },
-};
+  };
 </script>
 
 <style scoped>
@@ -81,4 +80,12 @@ export default {
     list-style-type: none; 
     color: white;
   }
+
+  .responsive-image {
+  max-width: 100%;
+  height: auto;
+  max-height: 50px; /* Adjust this value to control the maximum height of the image */
+  width: auto;
+}
+
 </style>

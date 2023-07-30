@@ -14,7 +14,7 @@
               max-height="80%"
               max-width="100%"
               contain
-              class="mt-2 mx-auto d-flex"
+              class="mx-auto d-flex margin"
             ></v-img>
           </v-card>
         </v-col>
@@ -147,5 +147,8 @@ border: 2px solid green !important;
 }
 .titulo1{
   color: white;
+}
+.margin{
+
 }
 </style>
