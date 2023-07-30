@@ -1,29 +1,34 @@
 <template>
- <v-app-bar app color="red" flat>
-      <v-toolbar-items class="mr-auto">
-        <v-btn class="white--text" text :to="{ name: 'home' }" exact>
-          Inicio
-          <span class="material-symbols-outlined">home</span>
-        </v-btn>
-        <v-btn class="white--text" text :to="{ name: 'coleccion' }" exact>
-          Colección
-          <span class="material-symbols-outlined">favorite</span>
-        </v-btn>
-        <v-btn class="white--text" text :to="{ name: 'tienda' }" exact>
-          Juego
-          <span class="material-symbols-outlined">playing_cards</span>
-        </v-btn>
-      </v-toolbar-items>
+  <v-app-bar app color="red" flat>
+    <v-toolbar-items class="mr-auto">
+      <v-btn class="white--text" text :to="{ name: 'home' }" exact>
+        Inicio
+        <span class="material-symbols-outlined">home</span>
+      </v-btn>
+      <v-btn class="white--text" text :to="{ name: 'coleccion' }" exact>
+        Colección
+        <span class="material-symbols-outlined">favorite</span>
+      </v-btn>
+      <v-btn class="white--text" text :to="{ name: 'tienda' }" exact>
+        Juego
+        <span class="material-symbols-outlined">playing_cards</span>
+      </v-btn>
+    </v-toolbar-items>
+
+
+    <div class="d-flex align-center">
       <ul>
-      <li class="card-textt mr-4" :class="coinClass">{{ userCoins }}</li>
-    </ul>
+        <li class="card-textt mr-1" >{{ userCoins }}</li>
+      </ul>
       <img
-        class="custom-image"
+        class=" shrink"
         src="pokecoin.png"
-        height="50"
+        height="40"
       />
- </v-app-bar>
+    </div>
+  </v-app-bar>
 </template>
+
 
 <script>
 import PokemonList from './Tienda.vue';
@@ -71,19 +76,9 @@ export default {
 </script>
 
 <style scoped>
- .coin-high {
-      color: #FFEA00;
-    }
-  
-    .coin-medium {
-      color: #424242;
-    }
-  
-    .coin-low {
-      color: black;
-    }
     .card-textt {
-    font-size: 25px;
+    font-size: 20px;
     list-style-type: none; 
+    color: white;
   }
 </style>

@@ -1,6 +1,9 @@
 <template>
   <v-app>
+
+    <v-app-bar app color="red" flat>
     <Navbar />
+  </v-app-bar>
 
     <v-container fluid>
       <v-row>
