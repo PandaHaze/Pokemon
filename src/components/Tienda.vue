@@ -1,19 +1,35 @@
 <template>
-  <div class="card-container mx-auto rounded-xl mt-3 custom-size">
+  <div class="card-container mx-auto mt-3">
     <div v-if="loading" class="loader-container">
       <v-progress-circular :size="70" color="#FFEA00" indeterminate></v-progress-circular>
     </div>
 
     <div v-else>
-      <v-container>
-        <v-row justify="center">
-          <v-col cols="12" sm="6" md="4" lg="3" v-for="pokemon in pokemonList" :key="pokemon.id">
-            <v-card class="animated-background card-color-animation" :class="getCardTypeClass(pokemon)">
-              <v-img :src="getPokemonImageUrl(pokemon)" :alt="pokemon.name" class="card-image"></v-img>
+      <v-container fluid>
+        <v-row align="center" justify="center">
+          <v-col
+            cols="12"
+            sm="6"
+            md="4"
+            lg="3"
+            v-for="pokemon in pokemonList"
+            :key="pokemon.id"
+          >
+            <v-card
+              class="animated-background card-color-animation"
+              :class="getCardTypeClass(pokemon)"
+            >
+              <v-img
+                :src="getPokemonImageUrl(pokemon)"
+                :alt="pokemon.name"
+                class="card-image"
+                :aspect-ratio="1"
+                contain
+              ></v-img>
               <v-card-text :class="getCardTypeClass(pokemon)">
                 <h5 class="card-title">{{ pokemon.name }}</h5>
                 <p class="card-text">Tipo: {{ pokemon.types.join(', ') }}</p>
-                <p class="card-text">Precio: {{ pokemon.price }} coins</p> 
+                <p class="card-text">Precio: {{ pokemon.price }} coins</p>
                 <div class="text-center d-flex align-center justify-space-around">
                   <v-tooltip top>
                     <template v-slot:activator="{ on }">
@@ -61,6 +77,7 @@
     </v-dialog>
   </div>
 </template>
+
   
   
   <script>
@@ -523,6 +540,11 @@
 }
 .custom-size{
   width: 90%; 
+}
+.card-image {
+  width: 100%;
+  height: 200px; /* Set the desired height for the cards' images */
+  object-fit: cover;
 }
 
 </style>
