@@ -1,3 +1,3 @@
 # Pokemon
 
-https://whimsical-mandazi-2690a4.netlify.app/#/
+https://regal-boba-3267b1.netlify.app/#/
