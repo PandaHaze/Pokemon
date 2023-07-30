@@ -1,3 +1,3 @@
 # Pokemon
 
-https://regal-boba-3267b1.netlify.app/#/
+https://silver-sprinkles-97c1d5.netlify.app/#/
