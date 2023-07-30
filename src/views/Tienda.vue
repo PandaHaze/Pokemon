@@ -5,7 +5,7 @@
       <v-col>
         <v-card
           :style="{
-            background: 'url(https://img.freepik.com/vetores-gratis/fundo-roxo-do-ceu-nublado-com-grupo-de-cumulos-e-nuvens-cirros-ilustracao-plana-dos-desenhos-animados_1284-62768.jpg?w=1060&t=st=1690652565~exp=1690653165~hmac=d5e997bb1c06735858cd548b2904e88a97ac3c204ce89b49f45aae562ea2095b) no-repeat center center fixed',
+            background: 'url(https://img.freepik.com/vetores-gratis/fundo-roxo-do-ceu-nublado-com-grupo-de-cumulos-e-nuvens-cirros-ilustracao-plana-dos-desenhos-animados_1284-62768.jpg?w=1380&t=st=1690692939~exp=1690693539~hmac=5d9ac2f34d625f7249804498941a103f954e28d85a348d369cd6713dcbf727a8) no-repeat center center fixed',
             backgroundSize: 'cover'
           }"
         >
