@@ -48,33 +48,46 @@
                   </v-btn>
                 </div>
               </v-card-text>
+
+              <!-- Agregar el v-alert específico para cada Pokémon -->
+              <v-alert
+                v-if="pokemon.showAlert"
+                :value="pokemon.showAlert"
+                :type="pokemon.alertType"
+                dismissible
+                @input="pokemon.showAlert = false"
+              >
+                {{ pokemon.alertMessage }}
+              </v-alert>
             </v-card>
           </v-col>
         </v-row>
       </v-container>
     </div>
 
-    <v-dialog v-model="dialog" max-width="500px">
-      <v-card :class="getCardTypeClass(selectedPokemon)">
-        <div class="modal-body">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-md-6">
-                <p class="mt-5 ml-2 text-uppercase"><b>Habilidad:</b> {{ selectedPokemon.hability }}</p>
-                <p class="ml-2 mt-2 text-uppercase"><b>HP:</b> {{ selectedPokemon.hp }}</p>
-                <p class="ml-2 mt-2 text-uppercase"><b>Attack:</b> {{ selectedPokemon.attack }}</p>
-                <p class="ml-2 mt-2 text-uppercase"><b>Defense:</b> {{ selectedPokemon.defense }}</p>
-              </div>
-              <div class="col-md-6 mt-5">
-                <h4 class="text-uppercase ml-11">{{ selectedPokemon.name }}</h4>
-                <v-img :src="selectedPokemon.image" max-width="70%" height="auto"></v-img>
-              </div>
-            </div>
-            <v-btn class="buy-button mb-2 ml-2" text @click="dialog = false">Cerrar</v-btn>
+
+    <v-dialog v-if="selectedPokemon" v-model="dialog" max-width="500px">
+  <v-card :class="getCardTypeClass(selectedPokemon)">
+    <div class="modal-body">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-6">
+            <p class="mt-5 ml-2 text-uppercase"><b>Habilidad:</b> {{ selectedPokemon.hability }}</p>
+            <p class="ml-2 mt-2 text-uppercase"><b>HP:</b> {{ selectedPokemon.hp }}</p>
+            <p class="ml-2 mt-2 text-uppercase"><b>Attack:</b> {{ selectedPokemon.attack }}</p>
+            <p class="ml-2 mt-2 text-uppercase"><b>Defense:</b> {{ selectedPokemon.defense }}</p>
+          </div>
+          <div class="col-md-6 mt-5">
+            <h4 class="text-uppercase ml-11">{{ selectedPokemon.name }}</h4>
+            <v-img :src="selectedPokemon.image" max-width="70%" height="auto"></v-img>
           </div>
         </div>
-      </v-card>
-    </v-dialog>
+        <v-btn class="buy-button mb-2 ml-2" text @click="dialog = false">Cerrar</v-btn>
+      </div>
+    </div>
+  </v-card>
+</v-dialog>
+
   </div>
 </template>
 
@@ -95,10 +108,6 @@
       selectedTypes: [], 
       userCoins: 100,
       dialog: false,
-      selectedPokemon: {},
-      alertVisible: false,
-      alertType: '',
-      alertMessage: '',
       purchasedPokemon: new Set(),
       
     };
@@ -222,27 +231,32 @@
       this.showPokemonInfo = true;
     },
     buyPokemon(pokemon) {
-  if (pokemon.price <= this.userCoins) {
-    db.collection('pokemon')
-      .add({
-        name: pokemon.name,
-        types: pokemon.types,
-        image: pokemon.image,
-      })
-      .then(() => {
-        this.showAlert('Pokémon comprado y guardado en Firestore', 'success');
-        this.userCoins -= pokemon.price;
-        this.purchasedPokemon.add(pokemon.id);
+      if (pokemon.price <= this.userCoins) {
+        db.collection('pokemon')
+          .add({
+            name: pokemon.name,
+            types: pokemon.types,
+            image: pokemon.image,
+          })
+          .then(() => {
+            // Agregar propiedades showAlert, alertType, y alertMessage al Pokémon comprado
+            pokemon.showAlert = true;
+            pokemon.alertMessage = 'Compra Exitosa!';
+            pokemon.alertType = 'success';
 
-        // Emitir el evento después de que se actualicen las monedas
-        this.$root.$emit('user-coins-updated', this.userCoins);
-      })
-      .catch((error) => {
-        console.error('Error al guardar el Pokémon en Firestore:', error);
-      });
-  } else {
-    this.showAlert('No tienes suficientes monedas para comprar este Pokémon.', 'error');
-  }
+            this.userCoins -= pokemon.price;
+            this.purchasedPokemon.add(pokemon.id);
+            this.$root.$emit('user-coins-updated', this.userCoins);
+          })
+          .catch((error) => {
+            console.error('Error al guardar el Pokémon en Firestore:', error);
+          });
+      } else {
+        // Agregar propiedades showAlert, alertType, y alertMessage al Pokémon que no se pudo comprar
+        pokemon.showAlert = true;
+        pokemon.alertMessage = 'No tienes suficientes monedas para comprar este Pokémon.';
+        pokemon.alertType = 'error';
+      }
 },
     showAlert(message, type) {
       this.alertMessage = message;
