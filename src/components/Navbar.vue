@@ -1,6 +1,37 @@
 <template>
   <v-app-bar app color="red" flat>
-    <v-toolbar-items class="mr-auto">
+    <!-- PARA DISPOSITIVOS PEQUEŃOS, MUESTRA EL BOTON-->
+    <v-menu v-if="$vuetify.breakpoint.xsOnly" left>
+      <template v-slot:activator="{ on }">
+        <v-btn class="white--text" icon v-on="on">
+          <v-icon>mdi-menu</v-icon>
+        </v-btn>
+      </template>
+      <v-list color="#E53935" exact>
+        <v-list-item :to="{ name: 'home' }" exact>
+          <v-list-item-title class="white--text">Inicio</v-list-item-title>
+          <v-list-item-icon class="white--text">
+            <span class="material-symbols-outlined">home</span>
+          </v-list-item-icon>
+        </v-list-item>
+        <v-list-item :to="{ name: 'coleccion' }" exact>
+          <v-list-item-title class="white--text">Colección</v-list-item-title>
+          <v-list-item-icon class="white--text">
+            <span class="material-symbols-outlined">favorite</span>
+          </v-list-item-icon>
+        </v-list-item>
+        <v-list-item :to="{ name: 'tienda' }" exact>
+          <v-list-item-title class="white--text">Juego</v-list-item-title>
+          <v-list-item-icon class="white--text">
+            <span class="material-symbols-outlined">playing_cards</span>
+
+          </v-list-item-icon>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+
+    <!-- PARA DISPOSITIVOS GRANDES, NO APARECE EL BOTON -->
+    <v-toolbar-items class="mr-auto" v-else>
       <v-btn class="white--text" text :to="{ name: 'home' }" exact>
         Inicio
         <span class="material-symbols-outlined">home</span>
@@ -15,19 +46,15 @@
       </v-btn>
     </v-toolbar-items>
 
-
-    <div class="d-flex align-center">
+    <!-- Coins and Image Wrapper -->
+    <div class="d-flex align-center ml-auto"> <!-- ml-auto class pushes content to the right -->
       <ul>
-        <li class="card-textt mr-1" >{{ userCoins }}</li>
+        <li class="card-textt mr-1">{{ userCoins }}</li>
       </ul>
-      <img
-        class="responsive-image"
-        src="pokecoin.png"
-      />
+      <img class="responsive-image" src="pokecoin.png" />
     </div>
   </v-app-bar>
 </template>
-
 
 <script>
 import PokemonList from './Tienda.vue';
