@@ -1,4 +1,6 @@
-# pokee
+# Pokemon 
+
+https://jovial-pegasus-cd2739.netlify.app/#/
 
 ## Project setup
 ```
