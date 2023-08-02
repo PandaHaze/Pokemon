@@ -68,6 +68,10 @@ export default {
   }),
   created() {
     this.$root.$on('user-coins-updated', this.updateUserCoins);
+    const savedCoins = localStorage.getItem('userCoins');
+    if (savedCoins !== null) {
+      this.userCoins = parseInt(savedCoins);
+    }
   },
   computed:{
     coinClass() {

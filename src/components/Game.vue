@@ -26,19 +26,25 @@ export default {
     return {
       cards: [],
       flippedCards: [],
-      showAllCards: true,
+      showAllCards: false,
       userCoins: 100,
+      pairsFound: 0,
     };
   },
   created() {
     this.fetchPokemons();
     this.$root.$on('user-coins-updated', coins => {
       this.userCoins = coins;
+      localStorage.setItem('userCoins', coins); // Actualiza las monedas en el almacenamiento local al cambiarlas
     });
+    const savedCoins = localStorage.getItem('userCoins');
+    if (savedCoins !== null) {
+      this.userCoins = parseInt(savedCoins);
+    }
   },
   methods: {
     fetchPokemons() {
-      fetch('https://pokeapi.co/api/v2/pokemon?limit=8') // Fetch data for 8 Pokémon
+      fetch('https://pokeapi.co/api/v2/pokemon?limit=8') 
         .then(response => response.json())
         .then(data => {
           const pokemons = data.results;
@@ -57,9 +63,7 @@ export default {
             }
           ]);
           this.shuffleCards();
-
-          // Remove the last four cards from the `cards` array
-          this.cards.splice(-4);
+          this.cards.splice(-2);
 
           setTimeout(() => {
             this.flipAllCards(); 
@@ -82,30 +86,36 @@ export default {
         [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
       }
     },
-      flipCard(index) {
-        if (this.flippedCards.length === 2 || this.cards[index].found) {
-          return;
-        }
-        if (!this.flippedCards.includes(index)) {
-          this.flippedCards.push(index);
-        }
-        this.cards[index].flipped = true;
-        if (this.flippedCards.length === 2) {
-          const [card1Index, card2Index] = this.flippedCards;
-          const card1 = this.cards[card1Index];
-          const card2 = this.cards[card2Index];
-          if (card1.name === card2.name) {
-            card1.found = true;
-            card2.found = true;
-            this.$root.$emit('user-coins-updated', this.userCoins + 50); // Incrementa 50 monedas, puedes ajustar esto según tus preferencias
+    flipCard(index) {
+    if (this.flippedCards.length === 2 || this.cards[index].found) {
+      return;
+    }
+    
+    if (!this.flippedCards.includes(index)) {
+      this.flippedCards.push(index);
+    }
+    
+    this.cards[index].flipped = true;
+    
+    if (this.flippedCards.length === 2) {
+      const [card1Index, card2Index] = this.flippedCards;
+      const card1 = this.cards[card1Index];
+      const card2 = this.cards[card2Index];
+      
+      if (card1.name === card2.name) {
+        card1.found = true;
+        card2.found = true;
+        const newCoins = this.userCoins + 50;
+        this.updateCoins(newCoins);  // Llama a la función para actualizar las monedas
+        localStorage.setItem('userCoins', newCoins);  // Actualiza las monedas en el almacenamiento local
         this.resetFlippedCards();
-          } else {
-            setTimeout(() => {
-              this.unflipCards(card1Index, card2Index);
-              this.resetFlippedCards();
-            }, 1000);
-          }
-        }
+      } else {
+        setTimeout(() => {
+          this.unflipCards(card1Index, card2Index);
+          this.resetFlippedCards();
+        }, 1000);
+      }
+    }
       },
       unflipCards(card1Index, card2Index) {
         this.cards[card1Index].flipped = false;
@@ -115,10 +125,30 @@ export default {
         this.flippedCards = [];
       },
       updateCoins(coins) {
+      this.userCoins = coins;
       this.$root.$emit('user-coins-updated', coins);
+
+      if (this.pairsFound === this.cards.length / 2) {
+        console.log("¡Juego completado!");
+        // Puedes realizar acciones adicionales aquí, como mostrar un mensaje de victoria o reiniciar el juego.
+      }
     },
+    startGame() {
+      this.shuffleCards();
+      this.showAllCards = true;
+      setTimeout(() => {
+        this.flipAllCards();
+        setTimeout(() => {
+          this.flipAllCards();
+          this.showAllCards = false;
+        }, 1000);
+      }, 3000);
     },
-  }
+  },
+  mounted() {
+    this.startGame();
+  },
+    };
   </script>
 
   <style>
