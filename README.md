@@ -1,3 +1,3 @@
 # Pokemon
 
-https://polite-entremet-f79873.netlify.app/#/
+https://kaleidoscopic-sunshine-1efae6.netlify.app/#/
