@@ -59,7 +59,7 @@ export default {
               name: pokemon.name,
               image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.url.split('/')[6]}.png`,
               found: false,
-              flipped: true, 
+              flipped: true,
             }
           ]);
           this.shuffleCards();
@@ -69,7 +69,7 @@ export default {
             this.flipAllCards(); 
             setTimeout(() => {
               this.flipAllCards(); 
-            }, 911110000000); 
+            }, 2000); 
           }, 3000); 
         })
         .catch(error => console.log(error));
@@ -133,22 +133,8 @@ export default {
         // Puedes realizar acciones adicionales aquí, como mostrar un mensaje de victoria o reiniciar el juego.
       }
     },
-    startGame() {
-      this.shuffleCards();
-      this.showAllCards = true;
-      setTimeout(() => {
-        this.flipAllCards();
-        setTimeout(() => {
-          this.flipAllCards();
-          this.showAllCards = false;
-        }, 1000);
-      }, 3000);
-    },
-  },
-  mounted() {
-    this.startGame();
-  },
-    };
+    }
+  };
   </script>
 
   <style>
